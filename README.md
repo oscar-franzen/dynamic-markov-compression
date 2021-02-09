@@ -12,7 +12,7 @@ bzip2.
 ## Compiling the code
 ```bash
 git clone https://github.com/oscar-franzen/dynamic-markov-compression
-rust b --release
+cargo b --release
 ```
 Binaries usually end up in `./target/release/`.
 
