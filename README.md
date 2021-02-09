@@ -19,7 +19,7 @@ Binaries usually end up in `./target/release/`.
 Lazy to compile? A Linux 64 bit executable binary is placed in the
 root of the git repository.
 
-## Examplee usage
+## Example usage
 ```bash
 dmc --compress <input file>
 dmc --decompress <input file>
