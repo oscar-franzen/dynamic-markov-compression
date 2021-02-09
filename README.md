@@ -16,6 +16,10 @@ rust b --release
 ```
 Binaries usually end up in `./target/release/`.
 
+## Executable binary
+Lazy to compile? A Linux 64 bit executable binary is placed in the
+root of the git repository.
+
 ## Examplee usage
 ```bash
 dmc --compress <input file>
