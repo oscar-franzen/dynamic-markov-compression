@@ -8,4 +8,4 @@ edition = "2018"
 
 [dependencies]
 getopts = "0.2.21"
-array2d = "*"
+array2d = "0.2.1"
