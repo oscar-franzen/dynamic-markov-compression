@@ -1,13 +1,12 @@
 ## Dynamic Markov Compression in Rust
-Dynamic Markov Compression [1,2] is a lossless data compression
+Dynamic Markov Compression (DMC) [1,2] is a lossless data compression
 algorithm. DMC uses Markov models to achieve compression. DMC never
 gained widespread adoption despite having found application in some
 specialised fields like genomics [3]. The original paper describes the
 theory in detail [2]. As a Rust-learning exercise I ported the
 original C code to Rust.
 
-DMC achieves compression performance somewhere between gzip and
-bzip2.
+DMC achieves compression performance somewhere between gzip and bzip2.
 
 ## Compiling the code
 ```bash
@@ -28,14 +27,23 @@ dmc --decompress <input file>
 
 The `--nodes` option can be used to specify the number of nodes to be
 used in the predictor. Increasing the number of nodes may improve
-compression. The default value for `--nodes` is 524269. Note, the
-number of nodes must be the same when running `--decompress` or the
-output will be invalid.
+compression. The default value for `--nodes` is 524269.
+
+The `--threshold` option can be used to change the default (2.0) state
+transition threshold.
 
 ```bash
 dmc --nodes 1000000 --compress <input file>
 dmc --nodes 1000000 --decompress <input file>
+
+dmc --threshold 4 --nodes 1000000 --compress <input file>
+dmc --threshold 4 --nodes 1000000 --decompress <input file>
 ```
+
+Note, `--nodes` and `--threshold` must be set to the same value when
+running `--decompress` or the output will be invalid (a future task
+would be to implement storing this information in a file format
+header).
 
 ## Benchmark
 I will run the benchmark on the Linux kernel source code. Downloading
