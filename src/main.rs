@@ -12,16 +12,15 @@
 use std::fs::File;
 use std::env;
 use std::process;
-use std::io::BufReader;
-use std::io::Read;
-use std::io::Write;
+use std::io::{BufReader, Read, Write};
+
 use getopts::Options;
 use array2d::Array2D;
 
 const VERSION : &str = "0.1";
 const BLOCK_SIZE : usize = 1_048_576;
 //const MAX_NODES : usize = 1000000;
-const MAX_NODES : usize = 524269;
+//const MAX_NODES : usize = 524269;
 
 const THRESHOLD : f32 = 2.0;
 const BIGTHRES : f32 = 2.0;
@@ -31,6 +30,8 @@ fn help() {
     println!(" -c, --compress          compress a file");
     println!(" -d, --decompress        decompress a file");
     println!(" -o, --output [STRING]   write output to a specific file");
+    println!(" -n, --nodes [INTEGER]   maximum number of nodes to use");
+    println!("                         (default is 524269)");
     println!(" -v, --verbose           verbose mode");
     println!(" -V, --version           version number");
     println!(" -h, --help              this help");
@@ -45,6 +46,7 @@ fn main() {
     let program = args[0].clone();
     let mut verbose = false;
     let mut output = String::new();
+    let mut n_nodes : usize;
 
     if args.len() <= 1 {
 	help();
@@ -56,7 +58,9 @@ fn main() {
     opts.optflag("h", "help", "");
     opts.optflag("V", "version", "");
     opts.optflag("v", "verbose", "");
+
     opts.optopt("o", "output", "", "NAME");
+    opts.optopt("n", "nodes", "", "NODES");
 
     let matches = match opts.parse(&args[1..]) {
         Ok(m) => { m }
@@ -73,6 +77,16 @@ fn main() {
     
     if matches.opt_present("v") {
 	verbose = true;
+    }
+
+    if matches.opt_present("n") {
+	n_nodes = matches.opt_str("n").unwrap().parse().unwrap();
+    } else {
+	n_nodes = 524269;
+    }
+
+    if verbose {
+	eprintln!("Using {} nodes", n_nodes);
     }
 
     if matches.opt_present("V") {
@@ -93,14 +107,14 @@ Feedback: <p.oscar.franzen@gmail.com>", VERSION);
 	    output = format!("{}.{}", file, "dmc");
 	}
 	
-	compress(&file, &output, verbose);
+	compress(&file, &output, n_nodes, verbose);
     }
 
     if matches.opt_present("d") {
 	if output == "" {
 	    output = format!("{}.{}", file, "decomp");
 	}
-	decompress(&file, &output, verbose);
+	decompress(&file, &output, n_nodes, verbose);
     } 
 }
 
@@ -130,7 +144,7 @@ fn pupdate(mut nodes : &mut Array2D<Node>,
 	   mut predictor : &mut Vec<Node>,
 	   mut pred_idx : &mut usize,
 	   b : usize,
-	   test : &mut u32,
+	   n_nodes : usize,
 	   verbose : bool) -> *mut Node {
 
 
@@ -165,7 +179,7 @@ fn pupdate(mut nodes : &mut Array2D<Node>,
 
 	_p = qwe as *mut Node;
 	
-	if *pred_idx >= MAX_NODES {
+	if *pred_idx >= n_nodes {
 	    if verbose {
 		println!("flushing...");
 	    }
@@ -214,6 +228,7 @@ fn pflush(mut nodes : &mut Array2D<Node>,
 
 fn compress(input : &str,
 	    output : &str,
+	    n_nodes : usize,
 	    verbose : bool) {
     let mut fh_out = File::create(&output).unwrap();
 
@@ -233,7 +248,7 @@ fn compress(input : &str,
     let mut new : (usize, usize) = (0, 0);
     let mut nodebuf : (usize, usize) = (0, 0);
 
-    let mut predictor = vec![Node::new(); MAX_NODES];
+    let mut predictor = vec![Node::new(); n_nodes];
     let mut pred_idx : usize = 0;
 
     let mut outbytes : u32 = 3;
@@ -271,7 +286,7 @@ fn compress(input : &str,
 			     &mut predictor,
 			     &mut pred_idx,
 			     (bit != 0) as usize,
-			     &mut test,
+			     n_nodes,
 			     verbose);
 
 		if mid == min {
@@ -333,6 +348,7 @@ fn compress(input : &str,
 
 fn decompress(input : &str,
 	      output : &str,
+	      n_nodes : usize,
 	      verbose : bool) {
     let mut fh_out = File::create(&output).unwrap();
     let fh_in = File::open(&input);
@@ -352,7 +368,7 @@ fn decompress(input : &str,
     let mut nodes = Array2D::filled_with(Node::new(), 256, 256);
     let mut _p : *mut Node = &mut nodes[(0, 0)];
 
-    let mut predictor = vec![Node::new(); MAX_NODES];
+    let mut predictor = vec![Node::new(); n_nodes];
     let mut pred_idx : usize = 0;
     
     _p = pflush(&mut nodes, &mut pred_idx, _p);
@@ -373,7 +389,10 @@ fn decompress(input : &str,
 	c = 0;
 
 	if val == (max-1) {
-	    eprintln!("decompression done.");
+	    if verbose {
+		eprintln!("decompression done.");
+	    }
+	    
 	    break;
 	}
 
@@ -401,7 +420,7 @@ fn decompress(input : &str,
 			 &mut predictor,
 			 &mut pred_idx,	
 			 (bit != 0) as usize,
-			 &mut test,
+			 n_nodes,
 			 verbose);
 	    
 	    c = c + c + bit;

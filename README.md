@@ -26,6 +26,17 @@ dmc --compress <input file>
 dmc --decompress <input file>
 ```
 
+The `--nodes` option can be used to specify the number of nodes to be
+used in the predictor. Increasing the number of nodes may improve
+compression. The default value for `--nodes` is 524269. Note, the
+number of nodes must be the same when running `--decompress` or the
+output will be invalid.
+
+```bash
+dmc --nodes 1000000 --compress <input file>
+dmc --nodes 1000000 --decompress <input file>
+```
+
 ## Benchmark
 I will run the benchmark on the Linux kernel source code. Downloading
 the kernel and print number of bytes:
