@@ -60,7 +60,7 @@ OF; <p.oscar.franzen@gmail.com>
 See `TODO.md`.
 
 ## References
-[1] https://en.wikipedia.org/wiki/Dynamic_Markov_compression
-[2] Data compression using dynamic Markov modelling, Cormack &
-    Horspool (1987), Comp J, https://dl.acm.org/doi/10.1093/comjnl/30.6.541
-[3] https://github.com/rajatdiptabiswas/dna-compression
+1. https://en.wikipedia.org/wiki/Dynamic_Markov_compression
+2. Data compression using dynamic Markov modelling, Cormack &
+   Horspool (1987), Comp J, https://dl.acm.org/doi/10.1093/comjnl/30.6.541
+3. https://github.com/rajatdiptabiswas/dna-compression
