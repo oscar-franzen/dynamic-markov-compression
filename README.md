@@ -57,13 +57,15 @@ wget https://www.dcs.warwick.ac.uk/~nasir/work/fp/datasets/calgary-corpus.tar.gz
 gunzip linux-5.11-rc7.tar.gz calgary-corpus.tar.gz
 ```
 
-Dataset|Program|Metric|Value
------- | ------ | ----- | -----
-foo | bar | test | 42
+### Data: linux-5.11-rc7.tar
 
+Program/Metric    | dmc | gzip | bzip2 | xz | zip
+----------------- | --- | ---- | ----- | -- | ---
+bytes written     |     |      |       |    |
+compression ratio |     |      |       |    |
+walltime (s)      |     |      |       |    |
 
-Compared to gzip, DMC is marginally better. However, bzip2 achieves a
-much better compression (142828054 bytes compressed).
+### Data: calgary-corpus.tar
 
 ## Feedback
 OF; <p.oscar.franzen@gmail.com>
