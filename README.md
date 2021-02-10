@@ -46,8 +46,9 @@ would be to implement storing this information in a file format
 header).
 
 ## Benchmark
-I will run the benchmark on the Linux kernel 5.11-rc7 source code and the calgary corpus [4]. Downloading
-the kernel source code and print number of bytes:
+I will run the benchmark on the Linux kernel 5.11-rc7 source code and
+the calgary corpus [4,5]. Downloading the kernel source code and print
+number of bytes:
 
 ```bash
 wget https://git.kernel.org/torvalds/t/linux-5.11-rc7.tar.gz
@@ -83,7 +84,9 @@ OF; <p.oscar.franzen@gmail.com>
 See `TODO.md`.
 
 ## References
-[1]: https://en.wikipedia.org/wiki/Dynamic_Markov_compression
-[2]: Data compression using dynamic Markov modelling, Cormack & Horspool (1987), Comp J, https://dl.acm.org/doi/10.1093/comjnl/30.6.541
-[3]: https://github.com/rajatdiptabiswas/dna-compression
-[4]: https://en.wikipedia.org/wiki/Calgary_corpus
+1. https://en.wikipedia.org/wiki/Dynamic_Markov_compression
+2. Data compression using dynamic Markov modelling, Cormack &
+   Horspool (1987), Comp J, https://dl.acm.org/doi/10.1093/comjnl/30.6.541
+3. https://github.com/rajatdiptabiswas/dna-compression
+4. https://en.wikipedia.org/wiki/Calgary_corpus
+5. https://www.dcs.warwick.ac.uk/~nasir/work/fp/datasets/calgary-corpus.tar.gz
