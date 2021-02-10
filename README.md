@@ -47,32 +47,20 @@ header).
 
 ## Benchmark
 I will run the benchmark on the Linux kernel 5.11-rc7 source code and
-the calgary corpus [4,5]. Downloading the kernel source code and print
+the calgary corpus [4]. Downloading the kernel source code and print
 number of bytes:
 
 ```bash
 wget https://git.kernel.org/torvalds/t/linux-5.11-rc7.tar.gz
-du -b linux-5.11-rc7.tar.gz
-# 189255808
+wget https://www.dcs.warwick.ac.uk/~nasir/work/fp/datasets/calgary-corpus.tar.gz
+
+gunzip linux-5.11-rc7.tar.gz calgary-corpus.tar.gz
 ```
 
-Decompress the tar archive:
-```bash
-gunzip linux-5.11-rc7.tar.gz
-```
+Dataset|Program|Metric|Value
+------ | ------ | ----- | -----
+foo | bar | test | 42
 
-Compress it with DMC:
-```bash
-dmc -c linux-5.11-rc7.tar
-```
-
-The above command will create a file called `linux-5.11-rc7.tar.dmc`,
-which is the compressed file. Check it's size:
-
-```bash
-du -b linux-5.11-rc7.tar.dmc
-# 186908889
-```
 
 Compared to gzip, DMC is marginally better. However, bzip2 achieves a
 much better compression (142828054 bytes compressed).
@@ -89,4 +77,3 @@ See `TODO.md`.
    Horspool (1987), Comp J, https://dl.acm.org/doi/10.1093/comjnl/30.6.541
 3. https://github.com/rajatdiptabiswas/dna-compression
 4. https://en.wikipedia.org/wiki/Calgary_corpus
-5. https://www.dcs.warwick.ac.uk/~nasir/work/fp/datasets/calgary-corpus.tar.gz
