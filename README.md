@@ -47,8 +47,9 @@ header).
 
 ## Benchmark
 I will run the benchmark on the Linux kernel 5.11-rc7 source code and
-the calgary corpus [4]. Downloading the kernel source code and print
-number of bytes:
+the calgary corpus [4]. `--nodes` was set to `10000000`.
+
+Downloading the kernel source code and print number of bytes:
 
 ```bash
 wget https://git.kernel.org/torvalds/t/linux-5.11-rc7.tar.gz
@@ -59,13 +60,23 @@ gunzip linux-5.11-rc7.tar.gz calgary-corpus.tar.gz
 
 ### Data: linux-5.11-rc7.tar
 
-Program/Metric    | dmc | gzip | bzip2 | xz | zip
------------------ | --- | ---- | ----- | -- | ---
-bytes written     |     |      |       |    |
-compression ratio |     |      |       |    |
-walltime (s)      |     |      |       |    |
+Metric/Program     | dmc         | gzip        | bzip2       | xz
+------------------ | ------------| ----------- | ----------- | -----------
+bytes written      | 159,493,859 | 189,255,827 | 142,828,054 | 121,553,932
+compression ratio  | 0.14        | 0.17        | 0.13        | 0.11
+wall time (s)      | 290.1       | 24.8        | 86.2        | 403.6
 
 ### Data: calgary-corpus.tar
+
+Metric/Program    | dmc     | gzip      | bzip2   | xz
+----------------- | ------- | --------- | ------- | -------
+bytes written     | 939,847 | 1,071,793 | 893,471 | 854,768
+compression ratio | 0.28    | 0.32      | 0.27    | 0.26
+wall time (s)     | 1.3     | 0.1       | 0.2     | 1.2
+
+## Conclusions
+`dmc` performs better than `gzip` but is slower. Both `bzip2` and `xz`
+performs better than `dmc`. `xz` is the best performer, but also the slowest.
 
 ## Feedback
 OF; <p.oscar.franzen@gmail.com>
