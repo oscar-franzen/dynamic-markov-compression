@@ -1,5 +1,6 @@
 /*
- * A Rust implementation of Dynamic Markov Compression [0].
+ * A Rust implementation of Dynamic Markov Compression [0] - a probablistic
+ * compression algorithm.
  *
  * https://github.com/oscar-franzen/dynamic-markov-compression
  *
@@ -153,7 +154,8 @@ fn pupdate(mut nodes : &mut Array2D<Node>,
 
     unsafe {
 	let mut r : f32;
-	let sum : f32 = (*(*_p)._ptr_next[b]).count[0]+(*(*_p)._ptr_next[b]).count[1];
+	let sum : f32 = (*(*_p)._ptr_next[b]).count[0]+(*(*_p)._ptr_next[b]).
+	    count[1];
 	
 	if (*_p).count[b] >= threshold && sum >= (threshold + (*_p).count[b]) {
 	    
@@ -184,7 +186,7 @@ fn pupdate(mut nodes : &mut Array2D<Node>,
 	
 	if *pred_idx >= n_nodes {
 	    if verbose {
-		println!("flushing...");
+		println!("node buffer has been depleted. cleaning up.");
 	    }
 	    
 	    _p = pflush(&mut nodes, &mut pred_idx, _p);
@@ -329,8 +331,10 @@ fn compress(input : &str,
 
 	    if (inbytes & 0xff) == 0 {
 		if (inbytes & 0xffff) == 0 && verbose {
-		    eprintln!("compressing... bytes in {}, \
-			       bytes out {}, ratio {}\r", inbytes, outbytes, (outbytes as f32/inbytes as f32) );
+		    eprintln!("compressing... read {} bytes, \
+			       wrote {} bytes, compression ratio is {}\r",
+			      inbytes,
+			      outbytes, (outbytes as f32/inbytes as f32) );
 		}
 
 		if (outbytes - pout) > 256 {
